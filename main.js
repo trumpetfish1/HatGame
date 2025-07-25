@@ -10,29 +10,31 @@ const mapDict = [hole, fieldCharacter]
 
 
 class Field {
-    _fieldArray = []
-    _goalX = 0
-    _goalY = 0
-    _startX = 0
-    _startY = 0
-    _playerX = 0
-    _playerY = 0
+    _fieldArray = [];
+    _goalX = 0;
+    _goalY = 0;
+    _startX = 0;
+    _startY = 0;
+    _playerX = 0;
+    _playerY = 0;
+    _fieldSize = 0;
+
 
     generate(n){
         let field = [];
         for (let i = 0; i < n; i++) {
             let row = [];
             for (let j = 0; j < n; j++) {
-             row.push(mapDict[Math.floor(Math.random() * mapDict.length)]);
+             row.push(mapDict[Math.floor(Math.random()+.40 * mapDict.length )]);
         }
         field.push(row);}
         this._fieldArray = field;
-        this._goalX = Math.floor(Math.random() * this._fieldArray.length)
-        this._goalY = Math.floor(Math.random() * this._fieldArray.length)
-        this._startX = Math.floor(Math.random() * this._fieldArray.length)
-        this._startY = Math.floor(Math.random() * this._fieldArray.length)
+        this._goalX = Math.floor(Math.random() * this._fieldArray.length);
+        this._goalY = Math.floor(Math.random() * this._fieldArray.length);
+        this._startX = Math.floor(Math.random() * this._fieldArray.length);
+        this._startY = Math.floor(Math.random() * this._fieldArray.length);
+        this._fieldSize = n;
 }
-
     print() {
         for (let row of this._fieldArray) {
             console.log(row.join(' '))
@@ -61,7 +63,6 @@ class Field {
         switch (move) {
         case 'w':
             this._playerX--;
-
             break;
         case 's':
             this._playerX++;
@@ -76,13 +77,22 @@ class Field {
             console.log('Invalid input. Use w/a/s/d.');
             continue
             }
-            if (this._fieldArray[this._playerX][this._playerY] === 'O') {
-                console.log('You fell in a hole! You dead');
+            
+            if (this._playerX < 0 || this._playerY < 0 
+                || this._playerY > this._fieldSize ||  this._playerY > this._fieldSize) {
+                    console.log('This Earth is flat and you done fell off!')
+                    playing = false
+            }
+            
+            
+                if (this._fieldArray[this._playerX][this._playerY] === 'O') {
+                console.log('You fell in a big \'ol hole! You dead partner...');
                 this._fieldArray[this._playerX][this._playerY] = 'X'
                 playing = false
             }
             if (this._fieldArray[this._playerX][this._playerY] === '^') {
-                console.log('Son of a gun, you found ye olde faithful! sombrero');
+                console.log('Son of a gun, you found ye olde faithful Sombrero!!!');
+                playing = false
             }
             else {
                 this._fieldArray[this._playerX][this._playerY] = '*'}
